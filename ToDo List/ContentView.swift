@@ -29,15 +29,19 @@ struct ContentView: View {
             Spacer()
             
             List {//start task list
-                ForEach(toDos) { toDoItem in Text(toDoItem.title)
+                ForEach(toDos) { toDoItem in
+                    if toDoItem.isImportant {Text("‼️" + toDoItem.title)}
+                    else {Text(toDoItem.title)}
                 } //end iterative closure
             }//end task list
+            .listStyle(.plain)
             
         }//end vstack
-        if showNewTask {NewToDoView()}
+        if showNewTask {NewToDoView(showNewTask: $showNewTask, toDoItem: ToDoItem(title:"", isImportant: false))}
     } //end var body
 } //end struct contentview
 
 #Preview {
     ContentView()
+        .modelContainer(for: ToDoItem.self, inMemory: true)
 }
